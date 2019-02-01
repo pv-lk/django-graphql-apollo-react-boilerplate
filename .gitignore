@@ -1,0 +1,22 @@
+# Ignore python environment and libraries
+venv/
+
+# Ignore secrets file with environmental credentials
+api/api/secrets.py
+
+# Ignore JS libraries and secrets
+client/yarn.lock
+client/node_modules/
+client/.jsbeautifyrc
+client/src/assets/fonts
+client/src/secrets.js
+
+
+## EMACS ONLY ##
+
+# Ignore temp and autosave files
+*.#*
+*.*~
+
+# Ignore projectile
+.projectile

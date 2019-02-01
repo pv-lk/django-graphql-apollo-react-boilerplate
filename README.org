@@ -1,0 +1,72 @@
+#+title: Boilerplate: Django, GraphQL, Apollo, React
+
+* About
+** Features
+*** Extended user model
+*** Secure JWT authentication with cookie storage
+*** Apollo connects GraphQL and React, manages state
+* Installation
+** Project folder and Git repository
+#+BEGIN_SRC bash
+mkdir $APP_NAME
+cd $APP_NAME
+git init
+#+END_SRC
+
+Create file ~.gitignore~ here and open with your favorite text editor.
+
+#+BEGIN_EXAMPLE
+# Ignore python environment and libraries
+venv/
+# Ignore secrets file with environmental credentials
+api/api/secrets.py
+
+# Ignore JS libraries
+client/yarn.lock
+client/node_modules/
+client/.jsbeautifyrc
+client/src/assets/fonts
+client/src/secrets.js
+
+
+## EMACS ONLY ##
+# Ignore temp and autosave files
+*.#*
+*.*~
+# Ignore projectile
+.projectile
+#+END_EXAMPLE
+
+** Python environment and Django
+#+BEGIN_SRC bash
+# setup virtual environment
+pip install virtualenv
+virtualenv venv
+source venv/bin/activate
+# install django and graphql
+pip install django graphene_django django_graphql_jwt django_filter
+# create new django project 
+django-admin startproject api
+cd api
+django-admin startapp users
+#+END_SRC
+
+** React
+Return to base directory.
+#+BEGIN_SRC bash
+# initialize react app from boilerplate
+npx create-react-app client
+cd client
+# add apollo
+yarn add react-router react-router-dom graphql react-apollo  apollo-client apollo-cache-inmemory apollo-link-http apollo-link-error apollo-link
+yarn add graphiql --dev
+# optional UI helpers
+yarn add bootstrap reactstrap react-fontawesome
+
+# Restructure project
+mkdir src/{assets,components,ui}
+mkdir src/assets/{fonts,images,stylesheets}
+mkdir src/assets/stylesheets/{components,config,ui}
+mkdir src/assets/stylesheets/config/fonts
+#+END_SRC
+* Run
