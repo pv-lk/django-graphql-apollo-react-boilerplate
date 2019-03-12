@@ -6,7 +6,9 @@
 *** Secure JWT authentication with cookie storage
 *** Apollo connects GraphQL and React, manages state
 * Installation
-** Project folder and Git repository
+** From repository
+** From scratch
+*** Project folder and Git repository
 #+BEGIN_SRC bash
 mkdir $APP_NAME
 cd $APP_NAME
@@ -37,7 +39,7 @@ client/src/secrets.js
 .projectile
 #+END_EXAMPLE
 
-** Python environment and Django
+*** Python environment and Django
 #+BEGIN_SRC bash
 # setup virtual environment
 pip install virtualenv
@@ -51,7 +53,7 @@ cd api
 django-admin startapp users
 #+END_SRC
 
-** React
+*** React
 Return to base directory.
 #+BEGIN_SRC bash
 # initialize react app from boilerplate
@@ -68,5 +70,11 @@ mkdir src/{assets,components,ui}
 mkdir src/assets/{fonts,images,stylesheets}
 mkdir src/assets/stylesheets/{components,config,ui}
 mkdir src/assets/stylesheets/config/fonts
+#+END_SRC
+*** Foreman
+Create file ~Profile~ with the following contents:
+#+BEGIN_SRC
+react: cd client && npm start
+django: cd api && python manage.py runserver
 #+END_SRC
 * Run
