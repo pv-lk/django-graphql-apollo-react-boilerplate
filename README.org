@@ -53,6 +53,18 @@ cd api
 django-admin startapp users
 #+END_SRC
 
+If using Python version manager [[https://github.com/asdf-vm/asdf][asdf]], direct the virtual environment
+to its binary by replacing =virtualenv venv= with the appropriate
+command.
+In Bash:
+#+BEGIN_SRC bash
+virtualenv $(asdf where python)/bin/python venv
+#+END_SRC
+in Fish shell:
+#+BEGIN_SRC fish
+virtualenv (asdf where python)/bin/python venv
+#+END_SRC
+
 *** React
 Return to base directory.
 #+BEGIN_SRC bash

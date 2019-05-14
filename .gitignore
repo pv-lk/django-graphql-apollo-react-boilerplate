@@ -20,3 +20,5 @@ client/src/secrets.js
 
 # Ignore projectile
 .projectile
+
+__pycache__
