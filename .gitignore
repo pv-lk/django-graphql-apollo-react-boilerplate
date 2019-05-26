@@ -1,24 +1,27 @@
 # Ignore python environment and libraries
-venv/
+api/venv/
+api/__pycache_/
+api/*/__pycache__/
+api/db*
 
 # Ignore secrets file with environmental credentials
-api/api/secrets.py
+api/secrets.py
 
 # Ignore JS libraries and secrets
 client/yarn.lock
 client/node_modules/
 client/.jsbeautifyrc
-client/src/assets/fonts
+client/src/assets/fonts/
 client/src/secrets.js
 
 
 ## EMACS ONLY ##
-
 # Ignore temp and autosave files
 *.#*
 *.*~
 
+# Ignore dev environment variables
+.dir-locals.el
+
 # Ignore projectile
 .projectile
-
-__pycache__

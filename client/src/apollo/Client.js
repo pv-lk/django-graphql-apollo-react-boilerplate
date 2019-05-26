@@ -29,7 +29,6 @@ const httpLink = new HttpLink({
 const stateLink = withClientState({
   cache,
   defaults: {
-    currentTrack: null
   },
   resolvers: {
     Mutation: {

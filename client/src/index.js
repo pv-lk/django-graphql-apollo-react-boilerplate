@@ -7,7 +7,7 @@ import { ApolloProvider } from 'react-apollo'
 // import './assets/stylesheets/application.scss'
 
 import App from './App'
-import Client from './Client'
+import Client from './apollo/Client'
 
 const AppWithProvider = () => (
   <BrowserRouter>
