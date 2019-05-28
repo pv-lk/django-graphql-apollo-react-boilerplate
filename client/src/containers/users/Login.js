@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import { AUTH_TOKEN } from '../../constants'
-import { Button, Form } from 'reactstrap'
+import { AUTH_TOKEN } from '../../secrets'
+import { Button, Form } from 'react-bootstrap'
 import FormInput from '../../ui/forms/FormInput'
 import { Mutation } from 'react-apollo'
 import { LOGIN_MUTATION,

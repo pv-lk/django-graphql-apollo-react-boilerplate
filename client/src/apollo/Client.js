@@ -4,7 +4,7 @@ import { HttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
 import { withClientState } from 'apollo-link-state'
 import { ApolloLink } from 'apollo-link'
-// import { AUTH_TOKEN } from '../constants'
+import { AUTH_TOKEN } from '../secrets'
 
 /* INITIALIZE CACHE AND LINK TO SERVER */
 const cache = new InMemoryCache()

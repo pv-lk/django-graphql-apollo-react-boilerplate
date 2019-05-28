@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './ui/Header'
 import { Switch, Route } from 'react-router-dom'
-import { Container } from 'reactstrap'
+import { Container } from 'react-bootstrap'
 
 // Routes
 import { Login } from './containers'
