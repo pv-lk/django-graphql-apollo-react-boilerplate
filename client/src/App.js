@@ -1,14 +1,13 @@
 import React from 'react'
-import Header from './ui/Header'
 import { Switch, Route } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 
+import { Header } from './ui/Header'
 // Routes
 import { Login } from './containers'
 
 const App = () => (
   <div className="App">
-    <Header />
     <Container>
       <Switch>
         <Route exact path="/login" component={ Login } />
