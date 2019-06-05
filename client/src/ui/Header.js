@@ -2,7 +2,7 @@ import React from 'react'
 import { Navbar, Nav } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-export class Login extends React.Component {
+export class Header extends React.Component {
     render() {
         return (
             <Navbar expand="lg">

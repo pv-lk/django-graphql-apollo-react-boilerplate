@@ -9,6 +9,7 @@ import { Login } from './containers'
 const App = () => (
   <div className="App">
     <Container>
+      <Header />
       <Switch>
         <Route exact path="/login" component={ Login } />
       </Switch>
