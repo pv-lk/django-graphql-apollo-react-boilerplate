@@ -1,8 +1,8 @@
 # Ignore python environment and libraries
-api/venv/
-api/__pycache_/
-api/*/__pycache__/
-api/db*
+*venv/
+*__pycache_/
+*/db*
+*.pyc
 
 # Ignore secrets file with environmental credentials
 api/secrets.py
