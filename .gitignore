@@ -1,6 +1,6 @@
 # Ignore python environment and libraries
 *venv/
-*__pycache_/
+*/__pycache_/
 */db*
 *.pyc
 

@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'graphene_django',
     # local
-    'users'
+    'users',
+    'posts'
 ]
 
 MIDDLEWARE = [

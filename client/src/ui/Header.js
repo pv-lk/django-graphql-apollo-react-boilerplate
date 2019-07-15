@@ -11,7 +11,7 @@ export class Header extends React.Component {
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="mr-auto">
                         <LinkContainer to="/login">
-                            <Nav.Link>Link</Nav.Link>
+                            <Nav.Link>Login / Signup</Nav.Link>
                         </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
