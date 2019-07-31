@@ -2,6 +2,12 @@ import graphene
 from graphene_django import DjangoObjectType
 
 from .models import Post
+from users.schema import UserType
+
+class PostType(DjangoObjectType):
+    class Meta:
+        model = Post
+
 
 class Query(graphene.ObjectType):
     posts = graphene.List(PostType)
@@ -11,22 +17,26 @@ class Query(graphene.ObjectType):
 
 
 class CreatePost(graphene.Mutation):
-    # post = graphene.Field(PostType)
-    id = graphene.Int(required=True)
+    id = graphene.Int()
     text = graphene.String()
-    # author = graphene.
+    author = graphene.Field(UserType)
 
     class Arguments:
         text = graphene.String()
 
     def mutate(self, info, text):
+        user = info.context.user or None
+
         post = Post(
-            text = text
+            text = text,
+            author = user
         )
         post.save()
 
         return CreatePost(
-            text = text
+            id = post.id,
+            text = post.text,
+            author = post.author
         )
 
 class Mutation(graphene.ObjectType):
