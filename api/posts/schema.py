@@ -13,7 +13,7 @@ class Query(graphene.ObjectType):
     posts = graphene.List(PostType)
 
     def resolve_posts(self, info, **kwargs):
-        return Posts.objects.all()
+        return Post.objects.all()
 
 
 class CreatePost(graphene.Mutation):

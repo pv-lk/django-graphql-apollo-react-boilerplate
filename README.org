@@ -1,8 +1,12 @@
 #+title: Boilerplate: Django, GraphQL, Apollo, React
 
 * About
+
+This is an advanced boilerplate for any web application based on
+user-submitted content.
+
 ** Features
-*** Extended user model
+*** Extend
 *** Secure JWT authentication with cookie storage
 *** Apollo connects GraphQL and React, manages state
 * Installation
