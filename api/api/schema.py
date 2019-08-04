@@ -4,6 +4,7 @@ import graphql_jwt
 import posts.schema
 import users.schema
 
+
 class Query(posts.schema.Query, users.schema.Query, graphene.ObjectType):
     pass
 
