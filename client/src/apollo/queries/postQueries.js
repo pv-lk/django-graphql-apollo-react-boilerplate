@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-export const FEED_QUERY = gql`
+const POST_QUERY =  gql`
   {
     posts {
       id
@@ -13,3 +13,20 @@ export const FEED_QUERY = gql`
     }
   }
 `
+
+
+const FEED_QUERY = gql`
+  {
+    posts {
+      id
+      createdAt
+      text
+      author {
+        id
+        username
+      }
+    }
+  }
+`
+
+export { POST_QUERY, FEED_QUERY }
