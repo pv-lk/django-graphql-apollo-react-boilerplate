@@ -1,10 +1,10 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Container } from 'react-bootstrap'
+import { Container } from '@material-ui/core'
 
-import { Header } from './ui/Header'
+import { Header } from './components/Header'
 // Routes
-import { Feed, Login } from './containers'
+import { Feed, Login, Submit } from './containers'
 
 const App = () => (
   <div className="App">
@@ -12,6 +12,7 @@ const App = () => (
       <Header />
       <Switch>
         <Route exact path="/" component={ Feed } />
+        <Route exact path="/submit" component={ Submit } />
         <Route exact path="/login" component={ Login } />
       </Switch>
     </Container>

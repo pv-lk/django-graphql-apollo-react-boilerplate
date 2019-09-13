@@ -1,86 +1,99 @@
 import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
-import Button from 'react-bootstrap/Button'
-import Col from 'react-bootstrap/Col'
-import Form from 'react-bootstrap/Form'
-
+import { useMutation } from '@apollo/react-hooks'
+import { Formik, Form, Field } from 'formik'
+import { TextField } from 'formik-material-ui'
+import { Button } from '@material-ui/core'
+import * as yup from 'yup'
+import { SignupForm, signupValidation } from './forms/SignupForm'
+import { LoginForm, loginValidation } from './forms/LoginForm'
+import { loader } from 'graphql.macro'
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../../apollo'
 import { AUTH_TOKEN } from '../../secrets'
-import {
-    LOGIN_MUTATION,
-    SIGNUP_MUTATION
-} from '../../apollo'
 
 
+const Signup = () => {
+  const [ signupUser, { loading, error }] = useMutation(SIGNUP_MUTATION)
 
-export class Login extends Component {
-    state = {
-        login: false,
+  return (
+    <Formik
+      initialValues={{
         username: '',
         email: '',
         name: '',
-        password: ''
-    }
+        password: '',
+        confirmPassword: ''
+      }}
+      onSubmit={ (values,  {setSubmitting }) => signupUser({ variables: values }) }
+      render={ ({ submitForm, isSubmitting, values, setFieldValue }) => (
+        <Form/>
+      )}
+    >
+    </Formik>
+  )
+}
 
-    render() {
-        const { login, username, email, name, password } = this.state
-        return (
-              <Form>
-                <h4>{ login ? 'Login' : 'Sign up'}</h4>
-                    <Form.Group controlId="formEmail">
-                        <Form.Label>Username</Form.Label>
-                      <Form.Control placeholder="Enter username"
-                                    value={ username }
-                                    update={ e => this.setState(
-                                        { username: e.target.value })} />
-                    </Form.Group>
-                {!login && (
-                    <Form.Group controlId="formEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email address"
-                                      value={ email }
-                                      update={ e => this.setState(
-                                          { email: e.target.value })} />
-                        <Form.Text className="text-muted">
-                          We'll never share your email with anyone else.
-                        </Form.Text>
-                    </Form.Group>
-                )}
-                {!login && (
-                    <Form.Group controlId="formName">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control placeholder="Enter name" />
-                    </Form.Group>
-                )}
-                <Form.Row>
-                  <Form.Group as={ Col } controlId="formPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
-                      {!login && (
-                          <Form.Text className="text-muted">
-                          Password must be at least 8 characters.
-                        </Form.Text>
-                      )}
-                    </Form.Group>
-                {!login && (
-                    <Form.Group as={ Col } controlId="formConfirmPassword">
-                        <Form.Label>Confirm password</Form.Label>
-                        <Form.Control type="password" placeholder="Reenter password" />
-                    </Form.Group>
-                )}
-                </Form.Row>
-                <Button type="submit">Submit</Button>
-                </Form>
-        )
+export const Login = () => {
+  const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
+    onCompleted({ login }) {
+      localStorage.setItem('token', login)
+      client.writeData({ data: { isLoggedIn : true } })
     }
+  })
 
-    _confirm = async data => {
-        const { token } = this.state.login ? data.login : data.signup
-        this._saveUserData(token)
-        this.props.history.push(`/`)
-    }
+  if (loading) return <Loading />
+  if (error) return <p>An error occurred</p>
 
-    _saveUserData = token => {
-        localStorage.setItem(AUTH_TOKEN, token)
-        console.log(localStorage)
-    }
+  return <LoginForm login={ login } />
+}
+
+export class ayyLogin extends Component {
+  state = {
+    login: true,
+    username: '',
+    email: '',
+    name: '',
+    password: ''
+  }
+
+  render() {
+    const { login, username, email, name, password } = this.state
+    return (
+      <React.Fragment>
+        <Formik
+          initialValues={{ username: '', email: ''}}
+          validationSchema={ login ? loginValidation : signupValidation }
+        >
+      </Formik>
+        <Mutation
+          mutation={ login ? LOGIN_MUTATION : SIGNUP_MUTATION }
+          variables={{ username, email, name, password }}
+          onCompleted={ data => this._confirm(data) }>
+          { mutation => (
+            <div onClick={ mutation }>
+            { login ? 'login' : 'create account' }
+            </div>
+          )}
+        </Mutation>
+        <Button
+          size='small'
+          color='secondary'
+          onClick={() => this.setState({ login: !login })}>
+          {login ? 'need to create an account?' : 'already have an account?'}
+        </Button>
+      </React.Fragment>
+    )
+  }
+
+
+
+
+  _confirm = async data => {
+    const { token } = this.state.login ? data.login : data.signup
+    this._saveUserData(token)
+    this.props.history.push(`/`)
+  }
+
+  _saveUserData = token => {
+    localStorage.setItem(AUTH_TOKEN, token)
+  }
 }
