@@ -1,16 +1,32 @@
-import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
+import React from 'react'
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  IconButton,
+  Typography
+} from '@material-ui/core'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import { makeStyles } from '@material-ui/core/styles'
 
-// import {
-//     POST_QUERY
-// } from '../../apollo'
+const useStyles = makeStyles(theme => ({
+  card: {
+    minWidth: 275
+  }
+}))
 
-export class Post extends Component {
-    render() {
-        return (
-            <div>
-              { this.props.post.text }
-            </div>
-        )
-    }
+export const Post = post => {
+  const { id, text, author } = post.post
+  const classes = useStyles()
+
+  return (
+    <Card className={classes.card}>
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          {text}
+        </Typography>
+      </CardContent>
+    </Card>
+  )
 }

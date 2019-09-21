@@ -1,0 +1,3 @@
+mutation CreatePostMutation($text: String!) {
+    create_post(text: $text)
+  }

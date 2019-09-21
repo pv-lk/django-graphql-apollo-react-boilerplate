@@ -1,23 +1,30 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Container } from '@material-ui/core'
+import { Container, Box } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import { Login } from './containers/users/Login'
+import { AllPosts } from './containers/posts/AllPosts'
+import Header from './components/Header'
 
-import { Header } from './components/Header'
-// Routes
-import { Feed, Login, Submit } from './containers'
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  }
+}))
 
-const App = () => (
-  <div className="App">
-    <Container>
+function App() {
+  const classes = useStyles()
+  return (
+    <Box className={ classes.root }>
       <Header />
-      <Switch>
-        <Route exact path="/" component={ Feed } />
-        <Route exact path="/submit" component={ Submit } />
-        <Route exact path="/login" component={ Login } />
-      </Switch>
-    </Container>
-  </div>
-)
-
+      <Container>
+        <Switch>
+          <Route exact path="/" component={ AllPosts } />
+          <Route exact path="/login" component={ Login } />
+        </Switch>
+      </Container>
+    </Box>
+  )
+}
 
 export default App
