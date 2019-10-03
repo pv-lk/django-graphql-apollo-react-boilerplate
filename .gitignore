@@ -8,12 +8,13 @@
 api/secrets.py
 
 # Ignore JS libraries and secrets
-client/yarn.lock
-client/node_modules/
-client/.jsbeautifyrc
-client/src/assets/fonts/
-client/src/secrets.js
-
+yarn.lock
+*/node_modules/
+node_modules/
+.jsbeautifyrc
+*/src/assets/fonts/
+*/src/secrets.js
+*/.next/
 
 ## EMACS ONLY ##
 # Ignore temp and autosave files
@@ -22,6 +23,8 @@ client/src/secrets.js
 
 # Ignore dev environment variables
 .dir-locals.el
+.tool-versions
+.gitignore
 
 # Ignore projectile
 .projectile

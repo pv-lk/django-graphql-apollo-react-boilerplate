@@ -25,8 +25,17 @@ export const Post = post => {
       <CardContent>
         <Typography variant="h5" component="h2">
           {text}
+        </Typography>{' '}
+        <Typography color="textSecondary">
+          { author.username }
         </Typography>
       </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <Button size="small">Learn More</Button>
+      </CardActions>
     </Card>
   )
 }

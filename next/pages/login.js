@@ -1,29 +1,37 @@
 import React from 'react'
 import { useMutation, useApolloClient } from '@apollo/react-hooks'
+import Cookies from 'js-cookie'
+import { withApollo } from '../apollo/withApollo'
 import { Formik } from 'formik'
 import { Paper, Button } from '@material-ui/core'
-import { loader } from 'graphql.macro'
 import { makeStyles } from '@material-ui/core/styles'
-import { loginValidation, LoginForm } from './forms/LoginForm'
-// import { AUTH_TOKEN } from '../../constants'
-const LOGIN_MUTATION = loader('./graphql/Login.graphql')
+import { loginValidation, LoginForm } from '../components/users/forms/LoginForm'
+import { TOKEN_AUTH } from '../components/users/graphql/mutations.graphql'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  paper: {
     flexGrow: 1,
     padding: theme.spacing(1)
   }
 }))
 
-export const Login = () => {
+
+
+const Login = () => {
   const client = useApolloClient()
   const classes = useStyles()
-  const [login, { loading, error }] = useMutation(LOGIN_MUTATION, {
-    onCompleted({ login }) {
-      localStorage.setItem('token', login)
-      client.writeData({ data: { isLoggedIn: true }})
-    }
-  })
+
+  const onCompleted = data => {
+    Cookies.set('token', data.login.token)
+    console.log(Cookies.get())
+    client.cache.reset().then(() => {
+      // redirect
+      return <div>success</div>
+    })
+  }
+
+  const [login, { loading, error }] = useMutation(TOKEN_AUTH, { onCompleted })
+
   const loginValues = {
     username: '',
     password: ''
@@ -37,7 +45,7 @@ export const Login = () => {
       render={props => {
         return (
           <div>
-            <Paper className={ classes.root }>
+            <Paper className={ classes.paper }>
               <LoginForm {...props} />
               <Button size="small" color="secondary">
                 need to create an account?
@@ -54,3 +62,5 @@ export const Login = () => {
     />
   )
 }
+
+export default withApollo(Login)

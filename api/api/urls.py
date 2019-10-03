@@ -1,27 +1,11 @@
-"""api URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-
 from django.contrib import admin
-# from django.urls import path
+from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 from django.conf.urls import url
-from django.views.generic import RedirectView
+# from django.views.generic import RedirectView
 from graphene_django.views import GraphQLView
-# from graphql_jwt.decorators import jwt_cookie
-# from . import views
+from graphql_jwt.decorators import jwt_cookie
+from . import views
 
 from .schema import schema
 
@@ -29,7 +13,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
-    # path('csrf/', views.csrf),
-    # path('graphql/', jwt_cookie(GraphQLView.as_view(graphiql=True)))
+    #url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
+    path('csrf/', views.csrf),
+    path('graphql/', jwt_cookie(GraphQLView.as_view(graphiql=True)))
 ]

@@ -1,0 +1,32 @@
+mutation CREATE_USER($username: String!, $email: String!, $name: String!, $password: String!) {
+  createUser(username: $username, email: $email, name: $name, password: $password) {
+    id
+    username
+    email
+  }
+}
+
+mutation TOKEN_AUTH($username: String!, $password: String!) {
+  tokenAuth(username: $username, password: $password) {
+    token
+  }
+}
+
+mutation VERIFY_TOKEN($token: String!) {
+  verifyToken(token: $token) {
+    payload
+  }
+}
+
+mutation REFRESH_TOKEN($token: String!) {
+  refreshToken(token: $token) {
+    token
+    payload
+  }
+}
+
+mutation REVOKE_TOKEN($refreshToken: String) {
+  revokeToken(refreshToken: $refreshToken) {
+    revoked
+  }
+}
