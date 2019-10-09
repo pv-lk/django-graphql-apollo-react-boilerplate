@@ -5,17 +5,10 @@ module.exports = {
     config.module.rules.push({
       test: /\.(graphql|gql)$/,
       exclude: /node_modules/,
-      loader: 'graphql-tag/loader',
-      resolve: {
-        alias: {
-          components: path.join(__dirname, 'components'),
-          lib: path.join(__dirname, 'lib')
-
-        }
-      }
-    }),
-    config.resolve.alias['components'] = path.join(__dirname, 'components')
-    config.resolve.alias['lib'] = path.join(__dirname, 'lib')
+      loader: 'graphql-tag/loader'
+    })
+    config.resolve.alias['components'] = path.join(__dirname, 'src/components')
+    config.resolve.alias['lib'] = path.join(__dirname, 'src/lib')
     return config
   }
 }

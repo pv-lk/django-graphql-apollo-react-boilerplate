@@ -1,11 +1,9 @@
 import React from 'react'
-import Cookies from 'js-cookie'
+import cookie from 'cookie'
 import Head from 'next/head'
-import { ApolloClient } from 'apollo-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from '@apollo/react-hooks'
 import fetch from 'isomorphic-unfetch'
-import { initApolloClient } from './initApollo'
+import { initApollo } from './initApollo'
 
 /**
  * Creates and provides the apolloContext
@@ -15,9 +13,15 @@ import { initApolloClient } from './initApollo'
  * @param {Object} [config]
  * @param {Boolean} [config.ssr=true]
  */
-export function withApollo (PageComponent, { ssr = true } = {}) {
+export function withApollo(PageComponent, { ssr = true } = {}) {
   const WithApollo = ({ apolloClient, apolloState, ...pageProps }) => {
-    const client = apolloClient || initApolloClient(apolloState, { getToken: Cookies.get() })
+    const client =
+      apolloClient ||
+      initApollo(apolloState, {
+        getToken: parseCookies().token,
+        csrfToken: parseCookies().csrftoken,
+        cookies: parseCookies()
+      })
     return (
       <ApolloProvider client={client}>
         <PageComponent {...pageProps} />
@@ -45,10 +49,11 @@ export function withApollo (PageComponent, { ssr = true } = {}) {
 
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
-      const apolloClient = (ctx.apolloClient = initApolloClient(
+      const apolloClient = (ctx.apolloClient = initApollo(
         {},
         {
-          getToken: () => getToken(ctx.req)
+          getToken: () => parseCookies(ctx.req).token,
+          csrfToken: parseCookies(ct).csrftoken
         }
       ))
 
@@ -100,4 +105,12 @@ export function withApollo (PageComponent, { ssr = true } = {}) {
   }
 
   return WithApollo
+}
+
+/**
+ * Get the user token from cookie
+ * @param {Object} req
+ */
+function parseCookies(req, options = {}) {
+  return cookie.parse(req ? req.headers.cookie || '' : document.cookie, options)
 }

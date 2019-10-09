@@ -3,7 +3,8 @@ import { Formik } from 'formik'
 import { useMutation, useApolloClient } from '@apollo/react-hooks'
 import { Button, TextField } from '@material-ui/core'
 import * as yup from 'yup'
-import { TOKEN_AUTH } from '../../../lib/users/graphql/mutations.graphql'
+import cookie from 'cookie'
+import { TOKEN_AUTH } from 'lib/graphql/mutations/users.graphql'
 
 const validationSchema = yup.object({
   username: yup.string('username').min(8),
@@ -19,6 +20,7 @@ export const LoginForm = () => {
   const client = useApolloClient()
 
   const onCompleted = data => {
+    console.log(data)
     Cookies.set('token', data.login.token)
     console.log(Cookies.get())
     client.cache.reset().then(() => {
@@ -35,6 +37,7 @@ export const LoginForm = () => {
     onCompleted,
     onError
   })
+
 
   return (
     <Formik
@@ -86,7 +89,6 @@ export const LoginForm = () => {
         )
       }}
       onSubmit={async values => {
-        console.log(values)
         login({ variables: values })
       }}
     />
