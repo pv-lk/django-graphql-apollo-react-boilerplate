@@ -1,8 +1,10 @@
 import React from 'react'
-import { withApollo } from '../lib/withApollo'
 import { Paper, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { LoginForm } from '../components/users/forms/LoginForm'
+import withApollo from 'lib/with-apollo'
+import checkCurrentUser from 'lib/users/current-user'
+import redirect from 'lib/utils/redirect'
+import { LoginForm } from 'components/users/forms/LoginForm'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -11,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Login = () => {
+const LoginPage = () => {
   const classes = useStyles()
 
   return (
@@ -26,4 +28,14 @@ const Login = () => {
   )
 }
 
-export default withApollo(Login)
+LoginPage.getInitialProps = async ctx => {
+  const { currentUser } = await checkCurrentUser(ctx.apolloClient)
+
+  if (currentUser.me) {
+    redirect(ctx, '/')
+  }
+
+  return {}
+}
+
+export default withApollo(LoginPage)

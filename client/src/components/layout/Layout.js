@@ -5,11 +5,9 @@ const layoutStyle = {
   padding: 20
 }
 
-const Layout = props => (
+export default props => (
   <div style={layoutStyle}>
     <Header />
     {props.children}
   </div>
 )
-
-export default Layout

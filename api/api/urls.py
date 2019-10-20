@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     #url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
     path('csrf/', views.csrf),
-    path('graphql/', jwt_cookie(GraphQLView.as_view(graphiql=True)))
+    path('ping/', views.ping)
+    path('graphql/', jwt_cookie(GraphQLView.as_view(graphiql=True, schema=schema)))
 ]

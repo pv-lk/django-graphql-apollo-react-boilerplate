@@ -4,7 +4,9 @@ import { useMutation, useApolloClient } from '@apollo/react-hooks'
 import { Button, TextField } from '@material-ui/core'
 import * as yup from 'yup'
 import cookie from 'cookie'
-import { TOKEN_AUTH } from 'lib/graphql/mutations/users.graphql'
+import { TOKEN_AUTH } from 'lib/users/graphql/mutations.graphql'
+import redirect from 'lib/utils/redirect'
+// import cookieLogin from 'lib/users/login'
 
 const validationSchema = yup.object({
   username: yup.string('username').min(8),
@@ -20,12 +22,12 @@ export const LoginForm = () => {
   const client = useApolloClient()
 
   const onCompleted = data => {
-    console.log(data)
-    Cookies.set('token', data.login.token)
-    console.log(Cookies.get())
+    console.log('ayyy' + data)
+    document.cookie = cookie.serialize('token', data.login.token, {
+      maxAge: 30 * 24 * 60 * 60
+    })
     client.cache.reset().then(() => {
-      // redirect
-      return <div>success</div>
+      redirect({}, '/')
     })
   }
 
@@ -37,7 +39,6 @@ export const LoginForm = () => {
     onCompleted,
     onError
   })
-
 
   return (
     <Formik
