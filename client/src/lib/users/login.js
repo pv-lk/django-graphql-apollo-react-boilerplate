@@ -18,9 +18,9 @@ import { TOKEN_AUTH } from './graphql/mutations.graphql'
 //       console.log(error)
 //     })
 
-export default (data, client) => {
-    console.log(data)
-    cookie.serialize('token', data.tokenAuth.token)
+export default (token, client) => {
+    console.log(token)
+    cookie.serialize('JWT', token)
     client.cache.reset().then(() => {
       redirect({}, '/')
       console.log(cookie.parse())

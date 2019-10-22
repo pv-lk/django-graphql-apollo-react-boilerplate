@@ -15,7 +15,6 @@ const useStyles = makeStyles(theme => ({
 
 const LoginPage = () => {
   const classes = useStyles()
-
   return (
     <>
       <Paper className={classes.paper}>

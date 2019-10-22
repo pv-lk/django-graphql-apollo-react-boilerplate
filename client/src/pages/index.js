@@ -18,6 +18,7 @@ const IndexPage = ({ currentUser }) => {
 
 IndexPage.getInitialProps = async ctx => {
   const { currentUser } = await checkCurrentUser(ctx.apolloClient)
+  console.log(currentUser)
   if (!currentUser.me) {
     redirect(ctx, '/login')
   }

@@ -6,9 +6,8 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
 import fetch from 'isomorphic-unfetch'
-import getCsrfToken from './utils/csrf'
 import parseCookies from './utils/parse-cookies'
-import { API_URL, CSRF_URL } from './config/urls'
+import { API_URL } from './config/urls'
 
 /**
  * Creates and provides the apolloContext
@@ -28,8 +27,7 @@ export default PageComponent => {
 
       // Otherwise initClient using apolloState
       return initApollo(apolloState, {
-        getToken: () => parseCookies().token,
-        getCsrfToken: () => parseCookies().csrftoken ? parseCookies().csrftoken : getCsrfToken()
+        getAuthToken: () => parseCookies().JWT
       })
     }, [])
     return (
@@ -56,12 +54,17 @@ export default PageComponent => {
 
   WithApollo.getInitialProps = async ctx => {
     const { AppTree, req, res } = ctx
+    console.log("----RES----")
+    if (res.headers) {console.log(res.headers)}
+    console.log("----REQ----")
+    console.log(req.headers)
+
+    console.log(ctx.isServer)
 
     const apolloClient = (ctx.apolloClient = initApollo(
       {},
       {
-        getToken: () => parseCookies(req).token,
-        getCsrfToken: () => parseCookies(req).csrftoken ? parseCookies(req).csrfoken : getCsrfToken(),
+        getAuthToken: () => parseCookies(req).JWT,
         cookies: req ? req.headers.cookie : ''
       }
     ))
@@ -130,7 +133,7 @@ const initApollo = (...args) => {
  */
 const createApollo = (
   initialState = {},
-  { getToken, cookies, csrfToken }
+  { getAuthToken, cookies }
 ) => {
   const fetchOptions = {}
 
@@ -146,19 +149,19 @@ const createApollo = (
 
   const httpLink = createHttpLink({
     uri: API_URL,
-    credentials: 'include',
+    credentials: 'same-origin',
     fetch,
     fetchOptions
   })
 
   const authLink = setContext((_, { headers }) => {
-    const token = getToken()
-    console.log(csrfToken)
+    const jwt = getAuthToken()
+    console.log(jwt)
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : '',
-        'X-CSRFToken': csrfToken ? csrfToken : ''
+        authorization: jwt ? `JWT ${jwt}` : ''
+        // 'X-CSRFToken': csrf ? csrf : ''
       },
       cookies: {
         ...cookies

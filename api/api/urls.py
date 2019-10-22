@@ -13,8 +13,8 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #url(r'^graphql', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
+    # url(r'^graphql', csrf_exempt(jwt_cookie(GraphQLView.as_view(graphiql=True, schema=schema)))),
     path('csrf/', views.csrf),
-    path('ping/', views.ping)
+    path('ping/', views.ping),
     path('graphql/', jwt_cookie(GraphQLView.as_view(graphiql=True, schema=schema)))
 ]

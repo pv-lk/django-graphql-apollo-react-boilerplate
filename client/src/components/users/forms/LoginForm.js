@@ -22,10 +22,12 @@ export const LoginForm = () => {
   const client = useApolloClient()
 
   const onCompleted = data => {
-    console.log('ayyy' + data)
-    document.cookie = cookie.serialize('token', data.login.token, {
-      maxAge: 30 * 24 * 60 * 60
-    })
+    console.log(data)
+    // django-graphql-jwt automatically sets browser cookie 'JWT'
+    // for other backends, set manually
+    // document.cookie = cookie.serialize('token', data.tokenAuth.token, {
+    //   maxAge: 30 * 24 * 60 * 60
+    // })
     client.cache.reset().then(() => {
       redirect({}, '/')
     })
