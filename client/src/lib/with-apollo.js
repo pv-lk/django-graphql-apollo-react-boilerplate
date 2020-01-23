@@ -58,8 +58,11 @@ export default PageComponent => {
     if (res.headers) {console.log(res.headers)}
     console.log("----REQ----")
     console.log(req.headers)
-
-    console.log(ctx.isServer)
+    console.log(req.headers.cookie)
+    //console.log(document.cookie)
+    // console.log("----IS SERVER----")
+    console.log(ctx)
+   // console.log("----END----")
 
     const apolloClient = (ctx.apolloClient = initApollo(
       {},

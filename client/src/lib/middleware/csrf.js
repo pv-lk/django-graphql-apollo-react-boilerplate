@@ -5,6 +5,7 @@ let csrfToken
 
 const getFromDocument = () => {
 
+
 }
 
 const getFromEndpoint = async () => {

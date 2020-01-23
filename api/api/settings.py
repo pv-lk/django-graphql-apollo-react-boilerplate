@@ -48,8 +48,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     # cors first
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -93,8 +93,14 @@ CORS_ORIGIN_WHITELIST = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CSRF_TRUSTED_ORIGINS = ['localhost:3000']
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+    'https://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://127.0.0.1:3000'
+]
 
+CORS_EXPOSE_HEADERS = True
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
