@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 import { useMutation, useApolloClient } from '@apollo/react-hooks'
 import { Button, TextField } from '@material-ui/core'
 import * as yup from 'yup'
-import cookie from 'cookie'
+import nookies from 'nookies'
 import { TOKEN_AUTH } from 'lib/users/graphql/mutations.graphql'
 import redirect from 'lib/utils/redirect'
 // import cookieLogin from 'lib/users/login'
@@ -23,11 +23,10 @@ export const LoginForm = () => {
 
   const onCompleted = data => {
     console.log(data)
-    // django-graphql-jwt automatically sets browser cookie 'JWT'
-    // for other backends, set manually
-    // document.cookie = cookie.serialize('token', data.tokenAuth.token, {
-    //   maxAge: 30 * 24 * 60 * 60
-    // })
+    nookies.set({}, 'token', data.tokenAuth.token, {
+      maxAge: 30 * 24 * 60 * 60
+    })
+
     client.cache.reset().then(() => {
       redirect({}, '/')
     })

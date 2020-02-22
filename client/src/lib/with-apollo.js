@@ -5,9 +5,8 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
-import fetch from 'isomorphic-unfetch'
-import parseCookies from './utils/parse-cookies'
 import { API_URL } from './config/urls'
+import nookies from 'nookies'
 
 /**
  * Creates and provides the apolloContext
@@ -27,7 +26,8 @@ export default PageComponent => {
 
       // Otherwise initClient using apolloState
       return initApollo(apolloState, {
-        getAuthToken: () => parseCookies().JWT
+        getCsrfToken: () => nookies.get().csrftoken,
+        getAuthToken: () => nookies.get().JWT,
       })
     }, [])
     return (
@@ -49,26 +49,17 @@ export default PageComponent => {
 
     // Set correct display name for devtools
     WithApollo.displayName = `withApollo(${displayName})`
-
   }
 
   WithApollo.getInitialProps = async ctx => {
     const { AppTree, req, res } = ctx
-    console.log("----RES----")
-    if (res.headers) {console.log(res.headers)}
-    console.log("----REQ----")
-    console.log(req.headers)
-    console.log(req.headers.cookie)
-    //console.log(document.cookie)
-    // console.log("----IS SERVER----")
-    console.log(ctx)
-   // console.log("----END----")
 
     const apolloClient = (ctx.apolloClient = initApollo(
       {},
       {
-        getAuthToken: () => parseCookies(req).JWT,
-        cookies: req ? req.headers.cookie : ''
+        getCsrfToken: () => nookies.get(ctx).csrftoken,
+        getAuthToken: () => nookies.get(ctx).JWT,
+        // cookies: ctx.req ? ctx.req.headers.cookie : ''
       }
     ))
 
@@ -110,7 +101,6 @@ export default PageComponent => {
 }
 
 let apolloClient = null
-
 /**
  * Always creates a new apollo client on the server
  * Creates or reuses apollo client in the browser.
@@ -136,7 +126,7 @@ const initApollo = (...args) => {
  */
 const createApollo = (
   initialState = {},
-  { getAuthToken, cookies }
+  { getAuthToken, getCsrfToken, cookies }
 ) => {
   const fetchOptions = {}
 
@@ -152,19 +142,18 @@ const createApollo = (
 
   const httpLink = createHttpLink({
     uri: API_URL,
-    credentials: 'same-origin',
-    fetch,
-    fetchOptions
+    credentials: 'include'
   })
 
   const authLink = setContext((_, { headers }) => {
     const jwt = getAuthToken()
-    console.log(jwt)
+    const csrf = getCsrfToken()
+    // console.log(jwt)
     return {
       headers: {
         ...headers,
-        authorization: jwt ? `JWT ${jwt}` : ''
-        // 'X-CSRFToken': csrf ? csrf : ''
+        authorization: jwt ? `JWT ${jwt}` : '',
+        'X-CSRFToken': csrf ? csrf : ''
       },
       cookies: {
         ...cookies
@@ -173,7 +162,6 @@ const createApollo = (
   })
 
   const isBrowser = typeof window !== 'undefined'
-
   return new ApolloClient({
     connectToDevTools: isBrowser,
     ssrMode: !isBrowser,
