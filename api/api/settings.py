@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from datetime import timedelta
-import secrets
+import app_secrets
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': secrets.db_name,
-        'USER': secrets.db_user,
-        'PASSWORD': secrets.db_password,
+        'NAME': app_secrets.db_name,
+        'USER': app_secrets.db_user,
+        'PASSWORD': app_secrets.db_password,
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -115,13 +115,22 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Use expanded user model
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# Add suppot for JWT authentication tokens
+
+# Add support for JWT authentication tokens
+
 AUTHENTICATION_BACKENDS = [
     'graphql_jwt.backends.JSONWebTokenBackend',
     'django.contrib.auth.backends.ModelBackend'
 ]
+
+
+# CSRF protection
+
+CSRF_USE_SESSIONS = False
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -142,7 +151,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 # GraphQL API
+
 GRAPHENE = {
     'SCHEMA': 'api.schema.schema',
     'MIDDLEWARE': [
