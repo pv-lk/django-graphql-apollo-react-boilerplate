@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { withApollo } from '../lib/apollo'
 
 const Home = () => (
   <div className="container">
@@ -200,4 +201,4 @@ const Home = () => (
   </div>
 )
 
-export default Home
+export default withApollo()(Home)

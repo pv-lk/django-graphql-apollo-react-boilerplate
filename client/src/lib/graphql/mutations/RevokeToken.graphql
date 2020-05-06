@@ -1,0 +1,5 @@
+mutation REVOKE_TOKEN($refreshToken: String) {
+  revokeToken(refreshToken: $refreshToken) {
+    revoked
+  }
+}

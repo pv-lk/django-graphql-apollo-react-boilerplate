@@ -131,6 +131,21 @@ AUTHENTICATION_BACKENDS = [
 
 CSRF_USE_SESSIONS = False
 
+CORS_ORIGIN_WHITELIST = [
+    "https://localhost:3000",
+    "http://localhost:3000",
+    "https://127.0.0.1:3000",
+    "http://127.0.0.1:3000"
+    ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "localhost:3000",
+    "localhost:3000",
+    "127.0.0.1:3000",
+    "127.0.0.1:3000"
+    ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
