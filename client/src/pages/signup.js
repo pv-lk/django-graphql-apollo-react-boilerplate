@@ -1,12 +1,11 @@
-
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useLoginMutation } from '../lib/users/login'
 import { withApollo } from '../lib/apollo'
 
-const LoginPage = () => {
+const SignupPage = () => {
   const [login, loginMutationResult] = useLoginMutation()
-  const { register, handleSubmit, errors } = useForm()
+  const { handleSubmit, register } = useForm()
   const onSubmit = values => {
     console.log(values)
     login({ variables: values})
@@ -16,10 +15,19 @@ const LoginPage = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <input name="username" ref={register} />
+          <input name="username" ref={register({ required: true })} />
         </div>
         <div>
           <input name="password" type="password" ref={register()} />
+        </div>
+        <div>
+          <input name="confirmPassword"/>
+        </div>
+        <div>
+          <input name="email" />
+        </div>
+        <div>
+          <input name="name" />
         </div>
         <button type="submit">
           Submit

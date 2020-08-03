@@ -6,9 +6,16 @@ export const useLoginMutation = () => {
 
   const [login, loginResult] = useMutation(TOKEN_AUTH, {
     onCompleted: data => {
+      console.log('loginMutation onCompleted')
+      console.log(data)
       Cookies.set({}, 'JWT', data.tokenAuth.token)
-    },
+    }
   })
 
   return [login, loginResult]
+}
+
+export const useCurrentUserQuery = (ctx = {}) => {
+  const token = Cookies.get(ctx, 'JWT')
+  const [currentUser, { loading, error }] = useQuery(CURRENT_USER)
 }

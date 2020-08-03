@@ -83,7 +83,7 @@ const createApolloClient = (initialState, ctx) => {
   })
 
   const authLink = setContext((_, { headers }) => {
-    const authToken = Cookies.get().JWT
+    const authToken = Cookies.get(ctx).JWT
     return {
       headers: {
         ...headers,
@@ -116,8 +116,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     httpLink
   ])
 
-  console.log('createApolloClient')
-  console.log(link)
   // the `ctx` will only be present on the server.
   // Use it to extract auth headers (ctx.req) or similar.
   return new ApolloClient({
@@ -140,6 +138,8 @@ const initApolloClient = (initialState, ctx) => {
   // isn't shared between connections (which would be bad)
   if (typeof window === 'undefined') {
     console.log('initApolloClient ssr')
+    console.log(ctx && ctx.req ? ctx.req : 'no req')
+    console.log(ctx && ctx.res ? ctx.res : 'no res')
     return createApolloClient(initialState, ctx)
   }
 
@@ -169,7 +169,6 @@ export const withApollo = ({ ssr = false } = {}) => (PageComponent) => {
     } else {
       // Happens on: next.js csr
       client = initApolloClient(apolloState, undefined)
-      console.log(client)
     }
     return (
       <ApolloProvider client={client}>
