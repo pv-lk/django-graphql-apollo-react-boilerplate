@@ -1,5 +1,3 @@
-esversion: 7
-
 import { useMemo } from 'react'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { link } from './apollo-link'

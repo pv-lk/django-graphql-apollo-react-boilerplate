@@ -1,32 +1,25 @@
-
-import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useLoginMutation } from '../lib/users/login'
-import { withApollo } from '../lib/apollo'
+import { useAuth } from '../lib/users/use-auth'
 
-const LoginPage = () => {
-  const [login, loginMutationResult] = useLoginMutation()
-  const { register, handleSubmit, errors } = useForm()
-  const onSubmit = values => {
-    console.log(values)
-    login({ variables: values})
-  }
+const Login = () => {
+  const { handleSubmit, register, errors } = useForm()
 
+  const onSubmit = (e) => console.log(e.username)
   return (
-    <div>
+    <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <input name="username" ref={register} />
+          <input name="username" ref={register()}/>
         </div>
         <div>
-          <input name="password" type="password" ref={register()} />
+          <input name="password" type="password" ref={register()}/>
         </div>
         <button type="submit">
           Submit
         </button>
       </form>
-    </div>
+    </>
   )
 }
 
-export default withApollo()(LoginPage)
+export default Login
