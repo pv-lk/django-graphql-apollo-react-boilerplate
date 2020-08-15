@@ -145,6 +145,8 @@ CSRF_TRUSTED_ORIGINS = [
     "127.0.0.1:3000"
     ]
 
+# CORS_EXPOSE_HEADERS = True # for debugging
+
 CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
@@ -178,5 +180,7 @@ GRAPHENE = {
 
 GRAPHQL_JWT = {
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=10),
+    'JWT_EXPIRATION_DELTA': timedelta(days=30),  # use with csrf protection
+    # 'JWT_EXPIRATION_DELTA': timedelta(minutes=5),  # use with refresh token
+    'JWT_COOKIE_SAMESITE': 'Lax',
 }

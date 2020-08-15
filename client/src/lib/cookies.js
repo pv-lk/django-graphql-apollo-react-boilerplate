@@ -14,7 +14,15 @@ const parseCookies = (ctx = {}, options = {}) => {
   return {}
 }
 
-const setCookie = (ctx ={}, name, value, options = {}) => {
+const setCookie = (
+  ctx = {},
+  name,
+  value,
+  options = {
+    maxAge: 60 * 60 * 24 * 30,
+    sameSite: 'lax',
+  }
+) => {
   if (ctx && ctx.res) {
     ctx.res.setHeader('Set-Cookie', cookie.serialize(name, value, options))
   }
@@ -26,12 +34,9 @@ const setCookie = (ctx ={}, name, value, options = {}) => {
   return {}
 }
 
-const destroyCookie = (ctx ={}, name) => {
+const destroyCookie = (ctx = {}, name) => {
   if (ctx && ctx.res) {
-    ctx.res.setHeader(
-      'Set-Cookie',
-      cookie.serialize(name, '', { maxAge: -1 })
-    )
+    ctx.res.setHeader('Set-Cookie', cookie.serialize(name, '', { maxAge: -1 }))
   }
 
   if (isBrowser()) {
@@ -43,8 +48,8 @@ const destroyCookie = (ctx ={}, name) => {
 
 export default {
   get: (ctx, options) => parseCookies(ctx, options),
-  set: (ctx, name, value, options = {}) => {
+  set: (ctx, name, value, options) => {
     setCookie(ctx, name, value, options)
   },
-  destroy: (ctx, name) => destroyCookie(ctx, name)
+  destroy: (ctx, name) => destroyCookie(ctx, name),
 }

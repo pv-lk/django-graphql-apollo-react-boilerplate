@@ -10,7 +10,8 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: link,
-    cache: new InMemoryCache() })}
+    cache: new InMemoryCache(),
+    credentials: 'include' })}
 
 export function initApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient()
