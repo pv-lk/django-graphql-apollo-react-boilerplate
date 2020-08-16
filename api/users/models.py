@@ -6,7 +6,7 @@ class CustomUser(AbstractUser):
     # + username
     # + first_name
     # + last_name
-    # + email
+    email = models.EmailField(unique=True)
     # + password
     # + groups
     # + user_permissions

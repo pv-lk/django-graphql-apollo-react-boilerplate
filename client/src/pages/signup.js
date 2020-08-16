@@ -1,40 +1,34 @@
-esversion: 8
-
+import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers'
-import * as yup from 'yup'
 import { useSignupMutation } from '../lib/users/signup'
 import { Field } from '../components/form-field'
 
-const schema = yup.object().shape({
-  username: yup.string().required(),
-  email: yup.string().email().required(),
-  password: yup.string().required()
-
-})
-
 const Signup = () => {
-  const [signup, signupResult] = useSignupMutation()
+  const [signup, schema, { loading, error }] = useSignupMutation()
+
   const { register, handleSubmit, errors } = useForm({
     mode: 'onBlur',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   })
 
-  const onSubmit = (e) => {
-    console.log(e)
-    signup({ variables: e })
+  const onSubmit = async e => {
+    await signup({ variables: e })
   }
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Field
-          fieldType="text"
-          name="username"
-          error={errors.username}
-          register={register}
-        />
-        {errors.username?.message}
+        { error && <p>{error.message}</p>}
+        <div>
+          <Field
+            fieldType="text"
+            name="username"
+            error={errors.username}
+            register={register}
+          />
+          {errors.username?.message}
+        </div>
         <Field
           fieldType="text"
           name="email"
@@ -48,6 +42,7 @@ const Signup = () => {
           register={register}
         />
         <button type="submit">Sign up</button>
+        <p>Already have an account? <Link href="/login"><a>Log in.</a></Link></p>
       </form>
     </>
   )

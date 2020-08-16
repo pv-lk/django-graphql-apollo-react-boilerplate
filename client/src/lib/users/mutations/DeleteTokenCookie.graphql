@@ -1,0 +1,5 @@
+mutation DELETE_TOKEN_COOKIE {
+  deleteTokenCookie {
+    deleted
+  }
+}

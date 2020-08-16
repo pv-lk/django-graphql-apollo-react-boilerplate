@@ -1,0 +1,5 @@
+mutation DELETE_REFRESH_TOKEN_COOKIE {
+  deleteRefreshTokenCookie {
+    deleted
+  }
+}

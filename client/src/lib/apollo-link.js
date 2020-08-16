@@ -40,6 +40,7 @@ const authLink = setContext((_, { headers }) => {
 
 const errorLink = onError(({ graphQLErrors = [], networkError = [] }) => {
   if (graphQLErrors)
+    console.log(graphQLErrors)
     graphQLErrors.map(({ message, locations, path }) =>
       console.log(
         `[GraphQL error]:Message: ${message}, Location: ${locations}, Path: ${path}`
@@ -48,10 +49,10 @@ const errorLink = onError(({ graphQLErrors = [], networkError = [] }) => {
   if (networkError) {
     console.log(`[Network error]: ${networkError}`)
 
-    if (networkError.statusCode === 401) {
-      authToken = null
-      cookies.destroy([], 'JWT')
-    }
+    // if (networkError.statusCode === 401) {
+    //   authToken = null
+    //   cookies.destroy([], 'JWT')
+    // }
 
     // if (networkError.statusCode === 403) {
     // csrfToken = null
