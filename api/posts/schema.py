@@ -1,5 +1,6 @@
 import graphene
 from graphene_django import DjangoObjectType
+from graphql_jwt.decorators import login_required
 
 from users.schema import UserType
 from .models import Post
@@ -25,6 +26,8 @@ class CreatePost(graphene.Mutation):
     class Arguments:
         text = graphene.String()
 
+
+    @login_required
     def mutate(self, info, text):
         user = info.context.user or None
 

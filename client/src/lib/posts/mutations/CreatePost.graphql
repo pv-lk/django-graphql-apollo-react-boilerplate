@@ -1,0 +1,10 @@
+mutation CREATE_POST($text: String!) {
+  createPost(text: $text) {
+    id
+    text
+    author {
+      id
+      username
+    }
+  }
+}

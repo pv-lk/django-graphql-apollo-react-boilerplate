@@ -2,22 +2,23 @@ import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers'
 import { useLoginMutation } from '../lib/users/login'
-import { useAuth } from '../lib/users/auth'
+import { useCheckAuth } from '../lib/users/check-auth'
 import { Field } from '../components/form-field'
 
 const Login = () => {
   const [login, schema, { loading, error }] = useLoginMutation()
-  const user = useAuth()
   const { handleSubmit, register, errors } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+  const user = useCheckAuth()
 
   const onSubmit = e => {
+    console.log(e)
     login({ variables: e })
   }
 
-  if (currentUser) return <p>Redirecting...</p>
+  if (user && user.data && user.data.me) return <p>Redirecting...</p>
   if (loading) return <p>...</p>
 
   return (
