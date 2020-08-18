@@ -1,7 +1,16 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
+import { usePostsQuery } from '../lib/posts/posts'
 
 export default function Home() {
+  const [posts] = usePostsQuery()
+
+  console.log(posts.data)
+
+  // if (loading) return 'Loading...'
+  if (posts.error) return 'Error...'
+  // for (const post in posts) console.log(post)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -13,6 +22,8 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        { posts.loading ? posts.loading : posts.data.posts.map((post) => <p>{ post.text }</p>)}
 
         <p className={styles.description}>
           Get started by editing{' '}

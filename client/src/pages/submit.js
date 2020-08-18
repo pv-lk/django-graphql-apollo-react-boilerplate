@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers'
-import { useCreatePostMutation } from '../lib/posts/create-post'
-// import { useCheckAuth } from '../lib/users/check-auth'
+import { useCreatePostMutation } from '../lib/posts/create'
+import { useCheckAuth } from '../lib/users/check-auth'
 import { Field } from '../components/form-field'
 
 const Submit = () => {
@@ -10,14 +10,15 @@ const Submit = () => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
+  const user = useCheckAuth()
 
   const onSubmit = e => {
     console.log(e)
     createPost({ variables: e })
   }
 
-  // if (user && user.data && user.data.me) return <p>Redirecting...</p>
-  // if (loading) return <p>...</p>
+  if (user && user.data && user.data.me) return <p>Redirecting...</p>
+  if (loading) return <p>...</p>
 
   return (
     <>

@@ -12,7 +12,16 @@ class PostType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
+    post = graphene.Field(PostType, id=graphene.ID())
     posts = graphene.List(PostType)
+
+    def resolve_post(self, info, **kwargs):
+        print("AYY YOOO")
+        print(kwargs.get('id'))
+        try:
+            return Post.objects.get(pk=kwargs.get('id'))
+        except ObjectDoesNotExist:
+            return None
 
     def resolve_posts(self, info, **kwargs):
         return Post.objects.all()
@@ -25,7 +34,6 @@ class CreatePost(graphene.Mutation):
 
     class Arguments:
         text = graphene.String()
-
 
     @login_required
     def mutate(self, info, text):

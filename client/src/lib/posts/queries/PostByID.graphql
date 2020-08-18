@@ -1,11 +1,11 @@
-query ALL_POSTS {
-  posts {
+query POST_BY_ID($id: ID!) {
+  post(id: $id) {
     id
     text
+    createdAt
     author {
       id
       username
     }
-    createdAt
   }
 }
