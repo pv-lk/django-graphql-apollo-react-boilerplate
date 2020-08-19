@@ -14,7 +14,6 @@ const Login = () => {
   const user = useCheckAuth()
 
   const onSubmit = e => {
-    console.log(e)
     login({ variables: e })
   }
 

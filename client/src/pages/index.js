@@ -3,13 +3,11 @@ import styles from '../styles/Home.module.css'
 import { usePostsQuery } from '../lib/posts/posts'
 
 export default function Home() {
-  const [posts] = usePostsQuery()
+  const [getAllPosts] = usePostsQuery()
 
-  console.log(posts.data)
+  const { loading, data, error } = getAllPosts()
 
-  // if (loading) return 'Loading...'
-  if (posts.error) return 'Error...'
-  // for (const post in posts) console.log(post)
+  if (error) return 'Error...'
 
   return (
     <div className={styles.container}>
@@ -23,7 +21,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        { posts.loading ? posts.loading : posts.data.posts.map((post) => <p>{ post.text }</p>)}
+        { loading ? loading : data.posts.map((post) => <p>{ post.text }</p>)}
 
         <p className={styles.description}>
           Get started by editing{' '}

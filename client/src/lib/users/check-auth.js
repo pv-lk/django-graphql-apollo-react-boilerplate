@@ -5,9 +5,8 @@ import CURRENT_USER from './queries/CurrentUser.graphql'
 export const useCheckAuth = () => {
   const router = useRouter()
 
-  const user = useQuery(CURRENT_USER, {
+  const authUser = useQuery(CURRENT_USER, {
     onCompleted: data => {
-      console.log(data.me)
       return { currentUser: data.me }
       // if (data.me) {
       //   router.push('/')
@@ -15,8 +14,16 @@ export const useCheckAuth = () => {
     },
     onError: error => {
       // router.push('/login')
-      if (router.pathname !== '/login') router.push('/login')
+
       return { currentUser: {}}
     }
   })
+
+  const requireAuth = () => {
+    if (authUser.error) {
+      if (router.pathname !== '/login') router.push('/login')
+    }
+  }
+
+  return [authUser, requireAuth]
 }

@@ -5,9 +5,9 @@ import { usePostsQuery } from '../../lib/posts/posts'
 
 const Post = () => {
   const router = useRouter()
-  const { loading, error, data } = usePostsQuery()
+  const [_, getPostByID] = usePostsQuery()
 
-  // console.log(usePostsQuery())
+  const { loading, data, error } = getPostByID(router.query.id)
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>{ error.message }</p>
@@ -15,8 +15,7 @@ const Post = () => {
   console.log(data)
 
   return (
-    <p>{ data.text }</p>
-    // <p>not yet</p>
+    <p>{ data.post.text }</p>
   )
 }
 

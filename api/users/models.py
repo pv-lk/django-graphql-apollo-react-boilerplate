@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
     # inherited fields
-    # + username
+    username = models.CharField(max_length=64, unique=True)
     # + first_name
     # + last_name
     email = models.EmailField(unique=True)

@@ -10,14 +10,14 @@ const Submit = () => {
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-  const user = useCheckAuth()
+  const [_, requireAuth] = useCheckAuth()
 
   const onSubmit = e => {
     console.log(e)
     createPost({ variables: e })
   }
 
-  if (user && user.data && user.data.me) return <p>Redirecting...</p>
+  // if (user && user.data && user.data.me) return <p>Redirecting...</p>
   if (loading) return <p>...</p>
 
   return (
