@@ -1,7 +1,6 @@
 import { HttpLink, from } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from '@apollo/client/link/error'
-import fetch from 'isomorphic-unfetch'
 import cookies from './cookies'
 
 let csrfToken, authToken
@@ -50,11 +49,11 @@ const errorLink = onError(({ graphQLErrors = [], networkError = [] }) => {
 
     // if (networkError.statusCode === 401) {
     //   authToken = null
-    //   cookies.destroy([], 'JWT')
     // }
 
     // if (networkError.statusCode === 403) {
     // csrfToken = null
+
     // cookies.destroy({}, 'csrftoken')
     // }
   }

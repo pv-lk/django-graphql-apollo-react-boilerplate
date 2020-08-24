@@ -2,12 +2,13 @@
 // show submitted posts
 import { useRouter } from 'next/router'
 
-const User = () => {
+const UserProfile = () => {
   const router = useRouter()
+
   const { username } = router.query
   return (
     <p>{ username }</p>
   )
 }
 
-export default User
+export default UserProfile

@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers'
-import { useSignupMutation } from '../lib/users/signup'
-import { Field } from '../components/form-field'
+import { useSignupMutation } from 'lib/users/signup'
+import { Field } from 'components/form-field'
 
 const Signup = () => {
   const [signup, schema, { loading, error }] = useSignupMutation()

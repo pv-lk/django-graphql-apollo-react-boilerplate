@@ -13,13 +13,17 @@ class PostType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
     post = graphene.Field(PostType, id=graphene.ID())
-    posts = graphene.List(PostType)
+    posts = graphene.List(PostType, author=graphene.ID())
 
     def resolve_post(self, info, id):
         return Post.objects.get(id=id)
 
-    def resolve_posts(self, info, **kwargs):
+    def resolve_posts(self, info, author=None, **kwargs):
+        if author:
+            return Post.objects.filter(author=author)
+
         return Post.objects.all()
+
 
 
 class CreatePost(graphene.Mutation):

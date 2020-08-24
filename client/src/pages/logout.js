@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useLogoutMutation } from '../lib/users/logout'
+import { useLogoutMutation } from 'lib/users/logout'
 
 const Logout = () => {
   const [logout] = useLogoutMutation()

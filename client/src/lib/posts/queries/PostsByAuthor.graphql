@@ -1,0 +1,11 @@
+query POSTS_BY_AUTHOR($author: ID!) {
+  posts (author: $author){
+    id
+    text
+    author {
+      id
+      username
+    }
+    createdAt
+  }
+}

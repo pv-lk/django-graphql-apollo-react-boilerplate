@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "components/*" : ["components/*"],
+      "lib/*": ["lib/*"],
+      "pages/*": ["pages/*"],
+      "styles/*": ["styles/*"],
+      "post-mutations/*": ["lib/posts/mutations/*"],
+      "post-queries/*": ["lib/posts/queries/*"],
+      "user-mutations/*": ["lib/users/mutations/*"],
+      "user-queries/*": ["lib/users/queries/*"],
+    }
+  },
+  // "include": [
+  //   "src/**/*"
+  // ],
+  "exclude": [
+    "node_modules"
+  ]
+}

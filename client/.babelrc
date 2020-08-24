@@ -1,10 +1,10 @@
 {
-  "presets": [
-    "next/babel"
+  'presets': [
+    'next/babel'
   ],
-  "plugins": [
+  'plugins': [
     [
-      "import-graphql"
+      'import-graphql'
     ]
   ]
 }

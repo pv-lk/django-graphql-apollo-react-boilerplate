@@ -1,9 +1,13 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import { usePostsQuery } from '../lib/posts/posts'
+import cookies from 'lib/cookies'
+import styles from 'styles/Home.module.css'
+import { initApollo } from 'lib/apollo'
+import { usePostsQuery } from 'lib/posts/posts'
+import ALL_POSTS from '../lib/posts/queries/AllPosts.graphql'
 
-export default function Home() {
+const Home = ({ ...props }) => {
   const [getAllPosts] = usePostsQuery()
+  console.log(props)
 
   const { loading, data, error } = getAllPosts()
 
@@ -21,54 +25,30 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        { loading ? loading : data.posts.map((post) => <p>{ post.text }</p>)}
+        { loading ? loading : data.posts.map((post, i) => <p key={i}>{ post.text }</p>)}
 
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
         </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
     </div>
   )
 }
+
+export const getServerSideProps = async ctx => {
+  const client = initApollo()
+
+  // await client.query({
+  //   query: ALL_POSTS
+  // })
+
+  return {
+    props: {
+      initialState: client.cache.extract()
+    }
+  }
+
+}
+
+export default Home

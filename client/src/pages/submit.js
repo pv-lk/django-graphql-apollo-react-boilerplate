@@ -1,24 +1,34 @@
+import dynamic from 'next/dynamic'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers'
-import { useCreatePostMutation } from '../lib/posts/create'
-import { useCheckAuth } from '../lib/users/check-auth'
-import { Field } from '../components/form-field'
+import { useCreatePostMutation } from 'lib/posts/create'
+import { Field } from 'components/form-field'
+import { useRouter } from 'next/router'
+import { Login, useAuth } from 'lib/users/auth'
 
-const Submit = () => {
+const Submit = ({ ...props }) => {
+  const router = useRouter()
   const [createPost, schema, { loading, error }] = useCreatePostMutation()
   const { handleSubmit, register, errors } = useForm({
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
-  const [_, requireAuth] = useCheckAuth()
+
+  // auth block
+  useEffect (() => {
+    if (props.auth) return
+    router.replace(router.route, '/login', { shallow: true })
+    }, [props.auth])
+
+  if (!props.auth) return <Login/>
+  // end auth block
+
+  const [_, {user, userLoading, userError }] = useAuth()
 
   const onSubmit = e => {
-    console.log(e)
     createPost({ variables: e })
   }
-
-  // if (user && user.data && user.data.me) return <p>Redirecting...</p>
-  if (loading) return <p>...</p>
 
   return (
     <>
@@ -32,6 +42,7 @@ const Submit = () => {
             register={register}
           />
           { errors.text?.message }
+          { user?.username }
         </div>
         <button type="submit">
           Submit
@@ -39,6 +50,15 @@ const Submit = () => {
       </form>
     </>
   )
+}
+
+export const getServerSideProps = async ctx => {
+  const [isAuthenticated] = useAuth()
+  return {
+    props: {
+      auth: await isAuthenticated(ctx)
+    }
+  }
 }
 
 export default Submit
